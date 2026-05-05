@@ -123,7 +123,26 @@ config, rpc })`.
 
 ## Status
 
-Spec at v0.1 draft. Breaking changes expected before v1.0.
+**v0.1 draft. Direct mode shippable today on Solana mainnet. Session
+mode blocked on on-chain program deployment.**
+
+| Mode | Off-chain (this package) | On-chain (`@mppsol/cpi`) | End-to-end usable |
+| --- | --- | --- | --- |
+| `solana-direct` (one-shot HTTP 402 payment) | ✅ full impl + 28 tests | n/a (not needed) | ✅ **YES** |
+| `solana-session` (streamed off-chain debits) | ✅ full impl + tests | ❌ not deployed | ❌ NO |
+
+**Direct mode is real-world usable today:** a client builds a USDC
+transfer + Memo nonce binding, this middleware verifies via raw RPC,
+your route handler runs. No on-chain program required.
+
+**Session mode** off-chain code (debit verification, sequence/cap
+checks, Ed25519 validation) is fully tested against a mocked
+`SessionStore`, but no `Session` PDAs exist on-chain yet because
+[`@mppsol/cpi`](https://github.com/mppsol/cpi) — the on-chain program —
+is blocked on a Solana toolchain issue (platform-tools v1.49 not yet
+released).
+
+Breaking changes possible before v1.0.
 
 ## License
 
