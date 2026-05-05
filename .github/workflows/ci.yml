@@ -16,18 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: |
-          mkdir -p /tmp/mppsol-deps
-          git clone --depth=1 https://github.com/mppsol/core.git /tmp/mppsol-deps/mppsol-core
-          ln -s /tmp/mppsol-deps/mppsol-core ../mppsol-core
-
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Build core
-        working-directory: /tmp/mppsol-deps/mppsol-core
-        run: npm install && npm run build
+          cache: npm
 
       - run: npm install
       - run: npm run build
