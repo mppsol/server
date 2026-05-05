@@ -121,6 +121,11 @@ config, rpc })`.
 - `@mppsol/server` — full surface, framework-agnostic primitives + Hono.
 - `@mppsol/server/hono` — Hono middleware re-export only.
 
+## Examples
+
+See [`examples/`](./examples/) for a runnable Hono server protected
+by MPP.sol direct mode on devnet.
+
 ## Status
 
 **v0.1 draft. Direct mode shippable today on Solana mainnet. Session
