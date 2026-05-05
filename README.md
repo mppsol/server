@@ -1,6 +1,8 @@
 # @mppsol/server
 
-HTTP middleware for [MPP.sol](https://github.com/mppsol/spec) — emits MPP
+[![CI](https://github.com/mppsol/server/actions/workflows/ci.yml/badge.svg)](https://github.com/mppsol/server/actions/workflows/ci.yml)
+
+HTTP middleware for [MPP.sol](https://mppsol.org) — emits MPP
 `402 Payment Required` challenges and verifies Solana payments
 (`solana-direct` and `solana-session`).
 

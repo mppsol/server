@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+
+    steps:
+      - name: Checkout @mppsol/server
+        uses: actions/checkout@v4
+        with:
+          path: mppsol-server
+
+      # The package.json declares "@mppsol/core": "file:../mppsol-core".
+      # Until @mppsol/core is published to npm, we check it out as a sibling
+      # so the file: dep resolves.
+      - name: Checkout @mppsol/core (sibling for file: dep)
+        uses: actions/checkout@v4
+        with:
+          repository: mppsol/core
+          path: mppsol-core
+
+      - name: Setup Node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Build @mppsol/core
+        working-directory: mppsol-core
+        run: |
+          npm install
+          npm run build
+
+      - name: Install @mppsol/server
+        working-directory: mppsol-server
+        run: npm install
+
+      - name: Build @mppsol/server
+        working-directory: mppsol-server
+        run: npm run build
+
+      - name: Test @mppsol/server
+        working-directory: mppsol-server
+        run: npm test
