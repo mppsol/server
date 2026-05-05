@@ -1,7 +1,42 @@
 name: CI
-on: [push]
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
-  hello:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo hello
+      - name: Checkout @mppsol/server
+        uses: actions/checkout@v4
+        with:
+          path: mppsol-server
+
+      - name: Clone @mppsol/core (sibling for file: dep)
+        run: git clone --depth=1 https://github.com/mppsol/core.git mppsol-core
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build @mppsol/core
+        working-directory: mppsol-core
+        run: |
+          npm install
+          npm run build
+
+      - name: Install @mppsol/server
+        working-directory: mppsol-server
+        run: npm install
+
+      - name: Build @mppsol/server
+        working-directory: mppsol-server
+        run: npm run build
+
+      - name: Test @mppsol/server
+        working-directory: mppsol-server
+        run: npm test
