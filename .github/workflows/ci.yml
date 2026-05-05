@@ -9,6 +9,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22]
+
     steps:
       - name: Checkout @mppsol/server
         uses: actions/checkout@v4
@@ -18,10 +22,10 @@ jobs:
       - name: Clone @mppsol/core (sibling for file: dep)
         run: git clone --depth=1 https://github.com/mppsol/core.git mppsol-core
 
-      - name: Setup Node 20
+      - name: Setup Node ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
 
       - name: Build @mppsol/core
         working-directory: mppsol-core
