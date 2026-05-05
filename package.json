@@ -1,6 +1,6 @@
 {
   "name": "@mppsol/server",
-  "version": "0.1.0-draft.1",
+  "version": "0.1.0-draft.2",
   "description": "MPP.sol — HTTP middleware emitting 402 challenges and verifying Solana payments. Hono adapter included.",
   "type": "module",
   "main": "./dist/index.js",

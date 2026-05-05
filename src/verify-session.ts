@@ -1,12 +1,12 @@
 import { ed25519 } from '@noble/curves/ed25519';
 import { base58 } from '@scure/base';
 import {
+  b64urlDecode,
   decodeDebit,
   MppErrorCode,
   SessionState,
   type SolanaSessionAuthorization,
 } from '@mppsol/core';
-import { b64urlDecode } from './headers.js';
 import type {
   ServerConfig,
   SessionReceiptData,

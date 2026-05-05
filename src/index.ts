@@ -10,7 +10,7 @@ export type {
   SessionReceiptData,
 } from './types.js';
 
-// Header parse / serialize
+// Header parse / serialize (re-exported from @mppsol/core for convenience)
 export {
   parseChallenge,
   serializeChallenge,
@@ -21,7 +21,7 @@ export {
   serializeChallengeError,
   b64urlEncode,
   b64urlDecode,
-} from './headers.js';
+} from '@mppsol/core';
 
 // Nonce generation + in-memory store
 export { generateNonce, InMemoryNonceStore } from './nonce.js';

@@ -1,6 +1,6 @@
 import type { SolanaChallenge } from '@mppsol/core';
 import { DEFAULT_CONFIRMATION } from '@mppsol/core';
-import { b64urlEncode, serializeChallenge } from './headers.js';
+import { b64urlEncode, serializeChallenge } from '@mppsol/core';
 import { generateNonce } from './nonce.js';
 import type { ServerConfig } from './types.js';
 

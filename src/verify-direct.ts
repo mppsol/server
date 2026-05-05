@@ -1,10 +1,11 @@
 import { base58 } from '@scure/base';
 import {
+  b64urlDecode,
+  b64urlEncode,
   MEMO_PROGRAM_ID,
   MppErrorCode,
   type SolanaDirectAuthorization,
 } from '@mppsol/core';
-import { b64urlDecode, b64urlEncode } from './headers.js';
 import type { RpcClient, RpcTransaction } from './rpc.js';
 import type { DirectReceiptData, ServerConfig, VerifyResult } from './types.js';
 

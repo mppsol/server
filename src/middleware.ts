@@ -1,11 +1,11 @@
 import type { Context, MiddlewareHandler } from 'hono';
-import { decodeDebit } from '@mppsol/core';
-import { issueChallenge } from './challenge.js';
 import {
   b64urlDecode,
+  decodeDebit,
   parseAuthorization,
   serializeChallengeError,
-} from './headers.js';
+} from '@mppsol/core';
+import { issueChallenge } from './challenge.js';
 import { buildReceiptHeader } from './receipt.js';
 import { createRpcClient, type RpcClient } from './rpc.js';
 import type { ServerConfig } from './types.js';

@@ -1,5 +1,4 @@
-import type { SolanaReceipt } from '@mppsol/core';
-import { b64urlEncode, serializeReceipt } from './headers.js';
+import { b64urlEncode, serializeReceipt, type SolanaReceipt } from '@mppsol/core';
 import type { ReceiptData } from './types.js';
 
 // Convert internal receipt data (bigints, byte arrays) into the
