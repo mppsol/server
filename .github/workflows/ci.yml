@@ -16,31 +16,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # The package.json declares "@mppsol/core": "file:../mppsol-core".
-      # Clone @mppsol/core into a workspace-internal location and symlink
-      # it to the expected sibling path so the file: dep resolves.
-      - name: Clone @mppsol/core (sibling for file: dep)
-        run: |
-          mkdir -p $RUNNER_TEMP/mppsol-deps
-          git clone --depth=1 https://github.com/mppsol/core.git $RUNNER_TEMP/mppsol-deps/mppsol-core
-          ln -sf $RUNNER_TEMP/mppsol-deps/mppsol-core ../mppsol-core
+      - run: |
+          mkdir -p /tmp/mppsol-deps
+          git clone --depth=1 https://github.com/mppsol/core.git /tmp/mppsol-deps/mppsol-core
+          ln -s /tmp/mppsol-deps/mppsol-core ../mppsol-core
 
-      - name: Setup Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Build @mppsol/core
-        run: |
-          cd $RUNNER_TEMP/mppsol-deps/mppsol-core
-          npm install
-          npm run build
+      - name: Build core
+        working-directory: /tmp/mppsol-deps/mppsol-core
+        run: npm install && npm run build
 
-      - name: Install
-        run: npm install
-
-      - name: Build
-        run: npm run build
-
-      - name: Test
-        run: npm test
+      - run: npm install
+      - run: npm run build
+      - run: npm test
