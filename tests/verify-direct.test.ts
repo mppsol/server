@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { base58 } from '@scure/base';
 import {
   b64urlEncode,
   MEMO_PROGRAM_ID,
@@ -57,10 +58,14 @@ function makeTx(opts: {
   const instructions: Array<{ programIdIndex: number; accounts: number[]; data: string }> = [];
 
   if (opts.nonceForMemo !== null) {
+    // Solana RPC returns instruction data as base58 of the raw bytes.
+    // Memo program treats data as UTF-8, so on-chain bytes =
+    // utf8(b64urlString); RPC presents that as base58(utf8(b64urlString)).
+    const memoStr = b64urlEncode(opts.nonceForMemo!);
     instructions.push({
       programIdIndex: 1,
       accounts: [],
-      data: b64urlEncode(opts.nonceForMemo!),
+      data: base58.encode(new TextEncoder().encode(memoStr)),
     });
   }
 

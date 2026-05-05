@@ -110,16 +110,32 @@ function creditedAmount(
 }
 
 // Looks for either:
-//   - a Memo program instruction whose data == base64url(nonce), or
+//   - a Memo program instruction whose data (base58-encoded by RPC)
+//     decodes to the UTF-8 bytes of base64url(nonce), or
 //   - a log message of form "Program log: mppsol/pay nonce=<b64url>"
-// emitted by the mppsol_cpi program.
+//     emitted by the mppsol_cpi program.
 function hasNonceBinding(tx: RpcTransaction, nonce: Uint8Array): boolean {
   const expected = b64urlEncode(nonce);
   const accountKeys = tx.transaction.message.accountKeys;
+  const expectedBytes = new TextEncoder().encode(expected);
 
   for (const ix of tx.transaction.message.instructions) {
     const programId = accountKeys[ix.programIdIndex];
-    if (programId === MEMO_PROGRAM_ID && ix.data === expected) {
+    if (programId !== MEMO_PROGRAM_ID) continue;
+    // Solana RPC returns instruction data as base58 of the raw bytes.
+    // The Memo program treats its data as raw UTF-8, so we decode the
+    // base58 to bytes and compare to the UTF-8 bytes of the expected
+    // b64url nonce string.
+    let dataBytes: Uint8Array;
+    try {
+      dataBytes = base58.decode(ix.data);
+    } catch {
+      continue;
+    }
+    if (
+      dataBytes.length === expectedBytes.length &&
+      dataBytes.every((b, i) => b === expectedBytes[i])
+    ) {
       return true;
     }
   }
