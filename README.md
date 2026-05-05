@@ -72,7 +72,7 @@ For `solana-direct`:
 
 For `solana-session`:
 
-1. The off-chain debit message decodes to the canonical 122-byte layout
+1. The off-chain debit message decodes to the canonical 104-byte layout
    with the correct domain separator.
 2. The nonce echoes the challenge.
 3. The Ed25519 signature verifies against the session's
