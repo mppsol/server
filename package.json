@@ -1,0 +1,72 @@
+{
+  "name": "@mppsol/server",
+  "version": "0.1.0-draft.1",
+  "description": "MPP.sol — HTTP middleware emitting 402 challenges and verifying Solana payments. Hono adapter included.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./hono": {
+      "types": "./dist/middleware.d.ts",
+      "import": "./dist/middleware.js"
+    }
+  },
+  "files": [
+    "dist/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "mpp",
+    "machine-payments-protocol",
+    "solana",
+    "payments",
+    "stablecoin",
+    "usdc",
+    "402",
+    "x402",
+    "hono",
+    "middleware"
+  ],
+  "homepage": "https://github.com/mppsol/server#readme",
+  "bugs": {
+    "url": "https://github.com/mppsol/server/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mppsol/server.git"
+  },
+  "author": "psyto <saito.hiroyuki@gmail.com> (https://github.com/psyto)",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@mppsol/core": "file:../mppsol-core",
+    "@noble/curves": "^1.4.0",
+    "@scure/base": "^1.1.6"
+  },
+  "peerDependencies": {
+    "hono": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "hono": { "optional": true }
+  },
+  "devDependencies": {
+    "hono": "^4.6.0",
+    "typescript": "^5.5.0"
+  }
+}
