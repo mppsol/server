@@ -14,33 +14,21 @@ jobs:
         node-version: [20, 22]
 
     steps:
-      - name: Checkout @mppsol/server
-        uses: actions/checkout@v4
-        with:
-          path: mppsol-server
+      - uses: actions/checkout@v4
 
-      - name: Clone @mppsol/core (sibling for file: dep)
-        run: git clone --depth=1 https://github.com/mppsol/core.git mppsol-core
+      - run: |
+          mkdir -p /tmp/mppsol-deps
+          git clone --depth=1 https://github.com/mppsol/core.git /tmp/mppsol-deps/mppsol-core
+          ln -s /tmp/mppsol-deps/mppsol-core ../mppsol-core
 
-      - name: Setup Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Build @mppsol/core
-        working-directory: mppsol-core
-        run: |
-          npm install
-          npm run build
+      - name: Build core
+        working-directory: /tmp/mppsol-deps/mppsol-core
+        run: npm install && npm run build
 
-      - name: Install @mppsol/server
-        working-directory: mppsol-server
-        run: npm install
-
-      - name: Build @mppsol/server
-        working-directory: mppsol-server
-        run: npm run build
-
-      - name: Test @mppsol/server
-        working-directory: mppsol-server
-        run: npm test
+      - run: npm install
+      - run: npm run build
+      - run: npm test
