@@ -20,13 +20,10 @@ jobs:
           path: mppsol-server
 
       # The package.json declares "@mppsol/core": "file:../mppsol-core".
-      # Until @mppsol/core is published to npm, we check it out as a sibling
-      # so the file: dep resolves.
-      - name: Checkout @mppsol/core (sibling for file: dep)
-        uses: actions/checkout@v4
-        with:
-          repository: mppsol/core
-          path: mppsol-core
+      # Until @mppsol/core is published to npm, clone it as a sibling so
+      # the file: dep resolves.
+      - name: Clone @mppsol/core (sibling for file: dep)
+        run: git clone --depth=1 https://github.com/mppsol/core.git mppsol-core
 
       - name: Setup Node ${{ matrix.node }}
         uses: actions/setup-node@v4
